@@ -1,8 +1,9 @@
-1. Facebook Pixel
-2. Checkout & Stripe integration
-3. Collection Page -- render only
 4. Product page -- fix render
 5. Category header -- show categories
 6. Seed products
 7. Facebook catalogue
 8. Make plan
+
+
+1. Checkout & Stripe integration
+2. Collection page -- render only

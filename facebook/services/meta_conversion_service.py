@@ -22,7 +22,7 @@ class MetaConversionService:
         self.app_secret = settings.META_APP_SECRET
         self.access_token = settings.META_SYSTEM_USER_TOKEN
         self.pixel_id = settings.META_DATASET_ID
-        self.test_event_code = settings.META_APP_SECRET
+        self.test_event_code = settings.META_DATASET_TEST_EVENT_CODE
 
         FacebookAdsApi.init(
             app_id=self.app_id,
