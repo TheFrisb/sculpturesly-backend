@@ -209,3 +209,11 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 20,
 }
+
+# Meta configuration
+META_APP_ID = config("META_APP_ID")
+META_APP_SECRET = config("META_APP_SECRET")
+META_SYSTEM_USER_TOKEN = config("META_SYSTEM_USER_TOKEN")
+META_DATASET_ID = config("META_DATASET_ID")
+META_CATALOGUE_ID = config("META_CATALOGUE_ID")
+META_DATASET_TEST_TOKEN = ""

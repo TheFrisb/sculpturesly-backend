@@ -1,8 +1,8 @@
-1. Add DRF
--- Sections
--- Orders
--- Standardize error handling
-
-2. Stripe Checkout
-
-3. Facebook Pixel
+1. Facebook Pixel
+2. Checkout & Stripe integration
+3. Collection Page -- render only
+4. Product page -- fix render
+5. Category header -- show categories
+6. Seed products
+7. Facebook catalogue
+8. Make plan
