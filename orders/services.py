@@ -17,7 +17,7 @@ def create_order_from_cart(user, cart, shipping_data, billing_data=None):
             billing_address = OrderAddress.objects.create(**shipping_data)
 
         order = Order.objects.create(
-            user=user if user.is_authenticated else None,
+            # user=user if user.is_authenticated else None,
             email=shipping_data["email"],
             shipping_address=shipping_address,
             billing_address=billing_address,
@@ -44,8 +44,5 @@ def create_order_from_cart(user, cart, shipping_data, billing_data=None):
             order_items.append(item)
 
         OrderItem.objects.bulk_create(order_items)
-
-        cart.status = "COMPLETED"
-        cart.save()
 
         return order

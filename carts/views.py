@@ -4,53 +4,28 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from common.utils import get_session_key
+from .constants import CART_SESSION_COOKIE_LABEL
 from .models import Cart, CartItem
 from .serializers import (
     CartItemAddSerializer,
     CartItemUpdateSerializer,
     CartSerializer,
 )
+from .utils import get_cart_from_request
 
 
 class CartViewSet(viewsets.GenericViewSet):
     serializer_class = CartSerializer
 
-    def get_session_key(self, request):
-        if not request.session.exists(request.session.session_key):
-            request.session.create()
-        return request.session.session_key
-
-    def get_cart(self, request, prefetch_items=True):
-        session_key = self.get_session_key(request)
-
-        cart_qs = Cart.objects.filter(
-            session_key=session_key, status=Cart.Status.ACTIVE
-        )
-
-        if prefetch_items:
-            cart_qs = cart_qs.prefetch_related(
-                "items",
-                "items__product_variant",
-                "items__product_variant__product",
-            )
-
-        cart = cart_qs.first()
-
-        if not cart:
-            cart = Cart.objects.create(
-                session_key=session_key, status=Cart.Status.ACTIVE
-            )
-
-        return cart
-
     def list(self, request, *args, **kwargs):
-        cart = self.get_cart(request, prefetch_items=True)
+        cart = get_cart_from_request(request, True, True)
         serializer = self.get_serializer(cart)
         return Response(serializer.data)
 
     @action(detail=False, methods=["post"], url_path="items")
     def add_item(self, request):
-        cart = self.get_cart(request, prefetch_items=False)
+        cart = get_cart_from_request(request, True, False)
 
         serializer = CartItemAddSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -86,13 +61,13 @@ class CartViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
         new_quantity = serializer.validated_data["quantity"]
 
-        session_key = self.get_session_key(request)
+        cart_session_key = get_session_key(request, CART_SESSION_COOKIE_LABEL, False)
 
         with transaction.atomic():
             cart_item = get_object_or_404(
                 CartItem.objects.select_for_update(),
                 pk=pk,
-                cart__session_key=session_key,
+                cart__session_key=cart_session_key,
             )
 
             if new_quantity > cart_item.product_variant.stock_quantity:
@@ -107,9 +82,11 @@ class CartViewSet(viewsets.GenericViewSet):
 
     @action(detail=True, methods=["delete"], url_path="remove")
     def remove_item(self, request, pk=None):
-        session_key = self.get_session_key(request)
+        cart_session_key = get_session_key(request, CART_SESSION_COOKIE_LABEL, False)
 
-        cart_item = get_object_or_404(CartItem, pk=pk, cart__session_key=session_key)
+        cart_item = get_object_or_404(
+            CartItem, pk=pk, cart__session_key=cart_session_key
+        )
         cart_item.delete()
 
         return self.list(request)

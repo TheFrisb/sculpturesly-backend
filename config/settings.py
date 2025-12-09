@@ -33,7 +33,6 @@ ALLOWED_HOSTS = config("DJANGO_ALLOWED_HOSTS", cast=Csv())
 
 
 # Application definition
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -218,3 +217,12 @@ META_SYSTEM_USER_TOKEN = config("META_SYSTEM_USER_TOKEN")
 META_DATASET_ID = config("META_DATASET_ID")
 META_CATALOGUE_ID = config("META_CATALOGUE_ID")
 META_DATASET_TEST_EVENT_CODE = config("META_DATASET_TEST_EVENT_CODE")
+
+
+# Stripe configuration
+STRIPE_PUBLIC_KEY = config("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = config("STRIPE_WEBHOOK_SECRET")
+
+# Frontend configuration
+FRONTEND_BASE_URL = config("FRONTEND_BASE_URL")

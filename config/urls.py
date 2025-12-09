@@ -27,7 +27,8 @@ urlpatterns = [
     path("api/orders/", include("orders.urls")),
     path("api/sections/", include("sections.urls")),
     path("api/facebook/", include("facebook.urls")),
-    path("api/v1/stripe/", include("stripe_payments.urls")),
+    path("api/payments/stripe/", include("stripe_payments.urls")),
+    path("api/common/", include("common.urls")),
 ]
 
 if settings.DEBUG:

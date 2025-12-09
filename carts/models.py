@@ -10,6 +10,7 @@ class Cart(TimestampedModel):
     class Status(models.TextChoices):
         ABANDONED = "ABANDONED", _("Abandoned")
         ACTIVE = "ACTIVE", _("Active")
+        COMPLETED = "COMPLETED", _("Completed")
 
     status = models.CharField(
         max_length=20, choices=Status.choices, default=Status.ACTIVE

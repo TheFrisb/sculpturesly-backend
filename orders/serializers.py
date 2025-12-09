@@ -1,6 +1,7 @@
 from django_countries.serializer_fields import CountryField
 from rest_framework import serializers
 
+from products.serializers import ProductVariantSerializer
 from .models import Order, OrderAddress, OrderItem
 
 
@@ -28,6 +29,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
     total_price = serializers.DecimalField(
         max_digits=10, decimal_places=2, read_only=True
     )
+    variant = ProductVariantSerializer(read_only=True)
 
     class Meta:
         model = OrderItem
@@ -39,6 +41,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
             "quantity",
             "unit_price",
             "total_price",
+            "variant",
         ]
 
 
