@@ -1,6 +1,12 @@
 from django.urls import path
 
-from .views import AddToCartView, InitiateCheckoutView, PurchaseView, ViewContentView
+from .views import (
+    AddToCartView,
+    InitiateCheckoutView,
+    PurchaseView,
+    ViewContentView,
+    MetaCatalogFeedView,
+)
 
 app_name = "facebook"
 
@@ -13,4 +19,5 @@ urlpatterns = [
         name="initiate_checkout",
     ),
     path("conversions/purchase/", PurchaseView.as_view(), name="purchase"),
+    path("catalogue/feed/", MetaCatalogFeedView.as_view(), name="meta_catalogue_feed"),
 ]

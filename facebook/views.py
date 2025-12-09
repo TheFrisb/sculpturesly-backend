@@ -1,4 +1,7 @@
+from django.conf import settings
+from django.http import StreamingHttpResponse
 from django.shortcuts import get_object_or_404
+from django.views import View
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -14,6 +17,7 @@ from .serializers import (
     PurchaseSerializer,
     ViewContentSerializer,
 )
+from .services.meta_catalogue_service import MetaCatalogueService
 from .tasks import send_meta_event_task
 from .utils import build_user_context
 
@@ -166,3 +170,24 @@ class PurchaseView(BaseFacebookView):
             custom_data,
         )
         return Response({"status": "tracked"})
+
+
+class MetaCatalogFeedView(View):
+    filename = "meta_catalog.csv"
+
+    def get(self, request, *args, **kwargs):
+        domain = settings.BACKEND_BASE_URL
+
+        service = MetaCatalogueService(
+            backend_domain=settings.BACKEND_BASE_URL,
+            frontend_domain=settings.FRONTEND_BASE_URL,
+            currency="EUR",
+            brand_name="Sculpturesly",
+        )
+
+        response = StreamingHttpResponse(
+            service.generate_feed(save_to_file=False), content_type="text/csv"
+        )
+
+        response["Content-Disposition"] = f'attachment; filename="{self.filename}"'
+        return response
