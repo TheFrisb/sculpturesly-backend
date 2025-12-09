@@ -3,6 +3,7 @@ from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
+from products.filters import ProductFilter
 from products.models import Category, Collection, Product
 from products.serializers import (
     CategoryTreeSerializer,
@@ -14,6 +15,7 @@ from products.serializers import (
 
 class CategoryListView(ListAPIView):
     serializer_class = CategoryTreeSerializer
+    pagination_class = None
 
     def get_queryset(self):
         return Category.objects.filter(parent__isnull=True).prefetch_related("children")
@@ -36,7 +38,7 @@ class ProductViewSet(ReadOnlyModelViewSet):
         filters.SearchFilter,
         filters.OrderingFilter,
     ]
-    filterset_fields = ["categories__slug", "collections__slug"]
+    filterset_class = ProductFilter
     search_fields = ["title", "description", "specifications"]
     ordering_fields = ["base_price", "created_at"]
 
