@@ -230,3 +230,6 @@ FRONTEND_BASE_URL = config("FRONTEND_BASE_URL")
 
 # Brand configuration
 BRAND_NAME = "Sculpturesly"
+
+# OpenAI configuration
+OPENAI_API_KEY = config("OPENAI_API_KEY")
