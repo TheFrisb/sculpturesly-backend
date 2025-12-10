@@ -1,6 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from products.filters import ProductFilter
@@ -10,6 +10,7 @@ from products.serializers import (
     CollectionSerializer,
     ProductDetailSerializer,
     ProductListSerializer,
+    CategorySerializer,
 )
 
 
@@ -19,6 +20,12 @@ class CategoryListView(ListAPIView):
 
     def get_queryset(self):
         return Category.objects.filter(parent__isnull=True).prefetch_related("children")
+
+
+class CategoryRetrieveView(RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    lookup_field = "slug"
 
 
 class CollectionListView(ListAPIView):

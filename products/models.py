@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.contrib.postgres.indexes import GinIndex
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -8,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from common.models import TimestampedModel
+from common.models import TimestampedModel, SeoModel
 from common.utils import get_unique_slug
 
 
@@ -65,7 +66,7 @@ class ProductType(models.Model):
         return self.name
 
 
-class Category(MPTTModel, TimestampedModel):
+class Category(MPTTModel, SeoModel, TimestampedModel):
     title = models.CharField(max_length=255, verbose_name=_("Category Name"))
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     parent = TreeForeignKey(
@@ -96,7 +97,7 @@ class Category(MPTTModel, TimestampedModel):
         super().save(*args, **kwargs)
 
 
-class Collection(TimestampedModel):
+class Collection(SeoModel, TimestampedModel):
     title = models.CharField(max_length=255, verbose_name=_("Collection Name"))
     slug = models.SlugField(max_length=255, unique=True, blank=True)
     description = models.TextField(blank=True)
@@ -117,7 +118,7 @@ class Collection(TimestampedModel):
         super().save(*args, **kwargs)
 
 
-class Product(TimestampedModel):
+class Product(SeoModel, TimestampedModel):
     class Status(models.TextChoices):
         DRAFT = "DRAFT", _("Draft")
         ARCHIVED = "ARCHIVED", _("Archived")
@@ -155,6 +156,11 @@ class Product(TimestampedModel):
         if not self.slug:
             self.slug = get_unique_slug(self.__class__, slugify(self.title), self)
         super().save(*args, **kwargs)
+
+    def get_frontend_url(self, slug=None):
+        base_frontend_url = settings.FRONTEND_BASE_URL
+
+        return f"{base_frontend_url}/products/{self.slug}"
 
     def __str__(self):
         return self.title

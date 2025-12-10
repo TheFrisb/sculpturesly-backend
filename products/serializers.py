@@ -14,6 +14,8 @@ from .models import (
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    seo_metadata = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
         fields = [
@@ -23,21 +25,20 @@ class CategorySerializer(serializers.ModelSerializer):
             "description",
             "image",
             "parent",
+            "seo_metadata",
         ]
+
+    def get_seo_metadata(self, obj):
+        return obj.get_seo_data()
 
 
 class CategoryTreeSerializer(serializers.ModelSerializer):
     children = serializers.SerializerMethodField()
+    seo_metadata = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
-        fields = [
-            "id",
-            "title",
-            "slug",
-            "image",
-            "children",
-        ]
+        fields = ["id", "title", "slug", "image", "children", "seo_metadata"]
 
     def get_children(self, obj):
         if hasattr(obj, "children_prefetched"):
@@ -50,6 +51,9 @@ class CategoryTreeSerializer(serializers.ModelSerializer):
                 children, many=True, context=self.context
             ).data
         return []
+
+    def get_seo_metadata(self, obj):
+        return obj.get_seo_data()
 
 
 # --- COLLECTION SERIALIZERS ---
@@ -138,6 +142,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     variants = ProductVariantSerializer(many=True, read_only=True)
     gallery_images = ProductGalleryImageSerializer(many=True, read_only=True)
     categories = CategorySerializer(many=True, read_only=True)
+    seo_metadata = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
@@ -154,4 +159,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             "categories",
             "variants",
             "gallery_images",
+            "seo_metadata",
         ]
+
+    def get_seo_metadata(self, obj):
+        return obj.get_seo_data()

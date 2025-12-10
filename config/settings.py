@@ -227,3 +227,6 @@ STRIPE_WEBHOOK_SECRET = config("STRIPE_WEBHOOK_SECRET")
 # Base URLs configuration
 BACKEND_BASE_URL = config("DJANGO_BASE_URL")
 FRONTEND_BASE_URL = config("FRONTEND_BASE_URL")
+
+# Brand configuration
+BRAND_NAME = "Sculpturesly"
