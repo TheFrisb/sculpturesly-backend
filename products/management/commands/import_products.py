@@ -1,16 +1,16 @@
-import json
-import os
 import io
+import json
 from pathlib import Path
-from django.core.management.base import BaseCommand, CommandError
+
 from django.core.files import File
 from django.core.files.base import ContentFile
+from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from django.utils.text import slugify
 from PIL import Image
 
 # Replace 'your_app_name' with your actual app name
-from products.models import Product, ProductVariant, Category, ProductType
+from products.models import Category, Product, ProductType, ProductVariant
 
 
 class Command(BaseCommand):

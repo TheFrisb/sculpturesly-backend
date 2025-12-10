@@ -6,11 +6,11 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 from products.filters import ProductFilter
 from products.models import Category, Collection, Product
 from products.serializers import (
+    CategorySerializer,
     CategoryTreeSerializer,
     CollectionSerializer,
     ProductDetailSerializer,
     ProductListSerializer,
-    CategorySerializer,
 )
 
 

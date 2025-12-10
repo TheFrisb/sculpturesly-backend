@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from common.models import TimestampedModel, SeoModel
+from common.models import SeoModel, TimestampedModel
 from common.utils import get_unique_slug
 
 

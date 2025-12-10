@@ -3,9 +3,9 @@ from django.urls import path
 from .views import (
     AddToCartView,
     InitiateCheckoutView,
+    MetaCatalogFeedView,
     PurchaseView,
     ViewContentView,
-    MetaCatalogFeedView,
 )
 
 app_name = "facebook"

@@ -3,10 +3,7 @@ import logging
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 
-from carts.constants import CART_SESSION_COOKIE_LABEL
 from carts.models import Cart
-from carts.utils import get_new_cart_session
-from common.utils import replace_session_key
 from orders.models import Order
 
 logger = logging.getLogger(__name__)

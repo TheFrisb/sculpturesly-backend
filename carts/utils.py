@@ -1,6 +1,7 @@
 import uuid
 
 from common.utils import get_session_key, replace_session_key
+
 from .constants import CART_SESSION_COOKIE_LABEL
 from .models import Cart
 

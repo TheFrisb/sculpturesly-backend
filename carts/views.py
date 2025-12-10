@@ -5,8 +5,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from common.utils import get_session_key
+
 from .constants import CART_SESSION_COOKIE_LABEL
-from .models import Cart, CartItem
+from .models import CartItem
 from .serializers import (
     CartItemAddSerializer,
     CartItemUpdateSerializer,

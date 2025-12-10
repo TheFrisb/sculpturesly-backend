@@ -1,5 +1,6 @@
 import concurrent.futures
 from pathlib import Path
+
 from django.core.management.base import BaseCommand, CommandError
 from PIL import Image
 

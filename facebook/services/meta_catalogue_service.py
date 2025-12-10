@@ -1,14 +1,13 @@
 import csv
 import os
 from decimal import Decimal
-from typing import List, Dict, Any, Iterator, Union
+from typing import Any, Dict, Iterator, List, Union
 
 from django.conf import settings
-from django.db.models import Prefetch
 from django.utils.html import strip_tags
 
 # Import your models
-from products.models import ProductVariant, Product
+from products.models import Product, ProductVariant
 
 
 class Echo:

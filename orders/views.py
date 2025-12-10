@@ -4,7 +4,6 @@ from django.core.exceptions import ValidationError
 from rest_framework import generics, status, views
 from rest_framework.response import Response
 
-from carts.models import Cart
 from carts.utils import get_cart_from_request
 from stripe_payments.services.stripe_checkout_service import StripeCheckoutService
 
